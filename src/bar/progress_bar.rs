@@ -45,11 +45,16 @@ impl<I: ExactSizeIterator> Iterator for FiniteProgessBar<I> {
         let surround_right = self.style.get_bar_surround().1;
         let fg_symbol = self.style.get_fg_symbol().to_string();
         let bg_symbol = self.style.get_bg_symbol().to_string();
-        let fg = vec![fg_symbol; str_len].join("");
+        let fg = vec![fg_symbol.clone(); str_len].join("");
         let bg = vec![bg_symbol; self.width - str_len].join("");
+        let tip = if str_len != self.width && str_len != 0 {
+            self.style.get_tip_symbol().to_string()
+        } else {
+            fg_symbol
+        };
 
         print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-        println!("{counter}{surround_left}{fg}{bg}{surround_right}");
+        println!("{counter}{surround_left}{fg}{tip}{bg}{surround_right}");
 
         self.current_index += 1;
         self.data.next()

@@ -1,11 +1,13 @@
 use crate::defaults::{
     DEFAULT_BAR_SURROUND, DEFAULT_BG_SYMBOL, DEFAULT_COUNTER_SURROUND, DEFAULT_FG_SYMBOL,
+    DEFAULT_TIP_SYMBOL,
 };
 
 #[derive(Debug, Clone)]
 pub struct ProgressBarStyle {
     fg_symbol: char,
     bg_symbol: char,
+    tip_symbol: char,
     show_counter: bool,
     counter_surround: (char, char),
     bar_surround: (char, char),
@@ -16,6 +18,7 @@ impl Default for ProgressBarStyle {
         Self {
             fg_symbol: DEFAULT_FG_SYMBOL,
             bg_symbol: DEFAULT_BG_SYMBOL,
+            tip_symbol: DEFAULT_TIP_SYMBOL,
             show_counter: false,
             counter_surround: DEFAULT_COUNTER_SURROUND,
             bar_surround: DEFAULT_BAR_SURROUND,
@@ -28,8 +31,20 @@ impl ProgressBarStyle {
         Self {
             fg_symbol: '#',
             bg_symbol: '-',
+            tip_symbol: DEFAULT_TIP_SYMBOL,
             show_counter: true,
             counter_surround: (' ', ' '),
+            bar_surround: ('[', ']'),
+        }
+    }
+
+    pub fn cargo() -> Self {
+        Self {
+            fg_symbol: '=',
+            bg_symbol: ' ',
+            tip_symbol: '>',
+            show_counter: false,
+            counter_surround: DEFAULT_COUNTER_SURROUND,
             bar_surround: ('[', ']'),
         }
     }
@@ -54,6 +69,15 @@ impl ProgressBarStyle {
 
     pub fn set_bg_symbol(&mut self, bg_symbol: char) -> &mut Self {
         self.bg_symbol = bg_symbol;
+        self
+    }
+
+    pub fn get_tip_symbol(&self) -> char {
+        self.tip_symbol
+    }
+
+    pub fn set_tip_symbol(&mut self, tip_symbol: char) -> &mut Self {
+        self.tip_symbol = tip_symbol;
         self
     }
 
