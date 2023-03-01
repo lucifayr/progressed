@@ -34,8 +34,8 @@ impl ProgressBarStyle {
             fg_symbol: '#',
             bg_symbol: '-',
             tip_symbol: '-',
-            show_counter: true,
-            show_percentage: false,
+            show_counter: false,
+            show_percentage: true,
             counter_surround: (' ', ' '),
             bar_surround: ('[', ']'),
         }
