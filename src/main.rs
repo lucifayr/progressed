@@ -4,9 +4,9 @@ use progressive::{bar::progress_bar::ProgressBar, style::bar_style::ProgressBarS
 
 fn main() {
     for _ in ProgressBar::new(0..500)
-        .set_style(ProgressBarStyle::arch())
+        .set_style(ProgressBarStyle::cargo().set_show_time(true))
         .set_title("progress bar: ")
     {
-        thread::sleep(Duration::from_millis(25));
+        thread::sleep(Duration::from_millis(100));
     }
 }

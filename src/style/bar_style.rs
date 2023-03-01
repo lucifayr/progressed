@@ -8,6 +8,7 @@ pub struct ProgressBarStyle {
     fg_symbol: char,
     bg_symbol: char,
     tip_symbol: char,
+    show_time: bool,
     show_counter: bool,
     show_percentage: bool,
     counter_surround: (char, char),
@@ -20,6 +21,7 @@ impl Default for ProgressBarStyle {
             fg_symbol: DEFAULT_FG_SYMBOL,
             bg_symbol: DEFAULT_BG_SYMBOL,
             tip_symbol: DEFAULT_TIP_SYMBOL,
+            show_time: true,
             show_counter: false,
             show_percentage: true,
             counter_surround: DEFAULT_COUNTER_SURROUND,
@@ -34,6 +36,7 @@ impl ProgressBarStyle {
             fg_symbol: '#',
             bg_symbol: '-',
             tip_symbol: '-',
+            show_time: true,
             show_counter: false,
             show_percentage: true,
             counter_surround: (' ', ' '),
@@ -46,6 +49,7 @@ impl ProgressBarStyle {
             fg_symbol: '=',
             bg_symbol: ' ',
             tip_symbol: '>',
+            show_time: false,
             show_counter: false,
             show_percentage: false,
             counter_surround: DEFAULT_COUNTER_SURROUND,
@@ -77,6 +81,15 @@ impl ProgressBarStyle {
 
     pub fn set_tip_symbol(mut self, tip_symbol: char) -> Self {
         self.tip_symbol = tip_symbol;
+        self
+    }
+
+    pub fn get_show_time(&self) -> bool {
+        self.show_time
+    }
+
+    pub fn set_show_time(mut self, show_time: bool) -> Self {
+        self.show_time = show_time;
         self
     }
 

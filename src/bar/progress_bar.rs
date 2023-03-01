@@ -1,4 +1,4 @@
-use std::io::Stdout;
+use std::{io::Stdout, time::Instant};
 
 use terminal::{Action, Retrieved, Terminal, Value};
 
@@ -10,6 +10,7 @@ pub struct ProgressBar<I: ExactSizeIterator> {
     max_len: usize,
     width: usize,
     title: String,
+    start_time: Instant,
     style: ProgressBarStyle,
     terminal: Terminal<Stdout>,
 }
@@ -31,6 +32,7 @@ impl<I: ExactSizeIterator> ProgressBar<I> {
             max_len: len,
             width,
             title: String::new(),
+            start_time: Instant::now(),
             style: ProgressBarStyle::default(),
             terminal,
         }
@@ -60,6 +62,16 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             String::new()
         };
 
+        let time = if self.style.get_show_time() {
+            let duration = self.start_time.elapsed();
+            let seconds = duration.as_secs() % 60;
+            let minutes = (duration.as_secs() / 60) % 60;
+            let hours = (duration.as_secs() / 60) / 60;
+            format!(" {:02}:{:02}:{:02}", hours, minutes, seconds)
+        } else {
+            String::new()
+        };
+
         let title = &self.title;
         let surround_left = self.style.get_bar_surround().0;
         let surround_right = self.style.get_bar_surround().1;
@@ -81,7 +93,7 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             };
 
         self.terminal.act(Action::HideCursor).unwrap_or(());
-        print!("{title}{counter}{surround_left}{fg}{tip}{bg}{surround_right}{percentage}");
+        print!("{title}{counter}{surround_left}{fg}{tip}{bg}{surround_right}{percentage}{time}");
 
         self.terminal.act(Action::MoveCursorTo(x, y)).unwrap_or(());
 
