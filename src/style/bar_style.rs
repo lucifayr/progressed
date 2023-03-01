@@ -49,16 +49,11 @@ impl ProgressBarStyle {
         }
     }
 
-    pub fn build(&mut self) -> Self {
-        // TODO: This is inefficient
-        self.clone()
-    }
-
     pub fn get_fg_symbol(&self) -> char {
         self.fg_symbol
     }
 
-    pub fn set_fg_symbol(&mut self, fg_symbol: char) -> &mut Self {
+    pub fn set_fg_symbol(mut self, fg_symbol: char) -> Self {
         self.fg_symbol = fg_symbol;
         self
     }
@@ -67,7 +62,7 @@ impl ProgressBarStyle {
         self.bg_symbol
     }
 
-    pub fn set_bg_symbol(&mut self, bg_symbol: char) -> &mut Self {
+    pub fn set_bg_symbol(mut self, bg_symbol: char) -> Self {
         self.bg_symbol = bg_symbol;
         self
     }
@@ -76,7 +71,7 @@ impl ProgressBarStyle {
         self.tip_symbol
     }
 
-    pub fn set_tip_symbol(&mut self, tip_symbol: char) -> &mut Self {
+    pub fn set_tip_symbol(mut self, tip_symbol: char) -> Self {
         self.tip_symbol = tip_symbol;
         self
     }
@@ -85,7 +80,7 @@ impl ProgressBarStyle {
         self.show_counter
     }
 
-    pub fn set_show_counter(&mut self, show_counter: bool) -> &mut Self {
+    pub fn set_show_counter(mut self, show_counter: bool) -> Self {
         self.show_counter = show_counter;
         self
     }
@@ -94,7 +89,7 @@ impl ProgressBarStyle {
         self.counter_surround
     }
 
-    pub fn set_counter_surround(&mut self, counter_surround: (char, char)) -> &mut Self {
+    pub fn set_counter_surround(mut self, counter_surround: (char, char)) -> Self {
         self.counter_surround = counter_surround;
         self
     }
@@ -103,7 +98,7 @@ impl ProgressBarStyle {
         self.bar_surround
     }
 
-    pub fn set_bar_surround(&mut self, bar_surround: (char, char)) -> &mut Self {
+    pub fn set_bar_surround(mut self, bar_surround: (char, char)) -> Self {
         self.bar_surround = bar_surround;
         self
     }
