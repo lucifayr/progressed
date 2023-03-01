@@ -5,7 +5,7 @@ use progressive::{bar::progress_bar::ProgressBar, style::bar_style::ProgressBarS
 fn main() {
     for _ in ProgressBar::new(0..100)
         .set_width(40)
-        .set_style(ProgressBarStyle::arch())
+        .set_style(ProgressBarStyle::default().set_show_counter(true))
     {
         thread::sleep(Duration::from_millis(25));
     }

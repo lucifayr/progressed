@@ -36,7 +36,13 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             let max_str_width = len.to_string().len();
             format!("{surround_left}{index:max_str_width$}/{len}{surround_right} ")
         } else {
-            "".to_owned()
+            String::new()
+        };
+
+        let percentage = if self.style.get_show_percentage() {
+            format!(" {percent:3.0}%", percent = progress * 100.0)
+        } else {
+            String::new()
         };
 
         let surround_left = self.style.get_bar_surround().0;
@@ -52,7 +58,7 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
         };
 
         print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-        println!("{counter}{surround_left}{fg}{tip}{bg}{surround_right}");
+        println!("{counter}{surround_left}{fg}{tip}{bg}{surround_right}{percentage}");
 
         self.current_index += 1;
         self.data.next()

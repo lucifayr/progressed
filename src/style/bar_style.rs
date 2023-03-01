@@ -9,6 +9,7 @@ pub struct ProgressBarStyle {
     bg_symbol: char,
     tip_symbol: char,
     show_counter: bool,
+    show_percentage: bool,
     counter_surround: (char, char),
     bar_surround: (char, char),
 }
@@ -20,6 +21,7 @@ impl Default for ProgressBarStyle {
             bg_symbol: DEFAULT_BG_SYMBOL,
             tip_symbol: DEFAULT_TIP_SYMBOL,
             show_counter: false,
+            show_percentage: true,
             counter_surround: DEFAULT_COUNTER_SURROUND,
             bar_surround: DEFAULT_BAR_SURROUND,
         }
@@ -33,6 +35,7 @@ impl ProgressBarStyle {
             bg_symbol: '-',
             tip_symbol: '-',
             show_counter: true,
+            show_percentage: false,
             counter_surround: (' ', ' '),
             bar_surround: ('[', ']'),
         }
@@ -44,6 +47,7 @@ impl ProgressBarStyle {
             bg_symbol: ' ',
             tip_symbol: '>',
             show_counter: false,
+            show_percentage: false,
             counter_surround: DEFAULT_COUNTER_SURROUND,
             bar_surround: ('[', ']'),
         }
@@ -82,6 +86,15 @@ impl ProgressBarStyle {
 
     pub fn set_show_counter(mut self, show_counter: bool) -> Self {
         self.show_counter = show_counter;
+        self
+    }
+
+    pub fn get_show_percentage(&self) -> bool {
+        self.show_percentage
+    }
+
+    pub fn set_show_percentage(mut self, show_percentage: bool) -> Self {
+        self.show_percentage = show_percentage;
         self
     }
 
