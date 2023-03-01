@@ -4,14 +4,30 @@ use progressive::{bar::progress_bar::ProgressBar, style::bar_style::ProgressBarS
 
 fn main() {
     for _ in ProgressBar::new(0..50)
-        .set_style(ProgressBarStyle::arch().set_show_counter(true))
+        .set_style(ProgressBarStyle::smooth())
         .set_title("progress bar: ")
     {
         thread::sleep(Duration::from_millis(50));
     }
 
-    println!("hmmmmmm");
-    println!("hmmmmmm");
+    for _ in ProgressBar::new(0..50)
+        .set_style(ProgressBarStyle::arch())
+        .set_title("progress bar 2: ")
+    {
+        thread::sleep(Duration::from_millis(50));
+    }
 
-    thread::sleep(Duration::from_secs(50));
+    for _ in ProgressBar::new(0..50)
+        .set_style(ProgressBarStyle::default())
+        .set_title("progress bar 3: ")
+    {
+        thread::sleep(Duration::from_millis(50));
+    }
+
+    for _ in ProgressBar::new(0..50)
+        .set_style(ProgressBarStyle::cargo())
+        .set_title("progress bar 4: ")
+    {
+        thread::sleep(Duration::from_millis(50));
+    }
 }

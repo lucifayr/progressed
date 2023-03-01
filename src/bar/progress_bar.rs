@@ -1,6 +1,6 @@
-use std::{io::Stdout, time::Instant};
+use std::{io::stdout, time::Instant};
 
-use terminal::{Action, Retrieved, Terminal, Value};
+use crossterm::ExecutableCommand;
 
 use crate::{
     defaults::DEFAULT_WIDTH,
@@ -16,15 +16,12 @@ pub struct ProgressBar<I: ExactSizeIterator> {
     title: String,
     start_time: Instant,
     style: ProgressBarStyle,
-    terminal: Terminal<Stdout>,
 }
 
 impl<I: ExactSizeIterator> ProgressBar<I> {
     pub fn new(iter: I) -> Self {
-        let terminal = terminal::stdout();
-
         let len = iter.len();
-        let width = if let Ok(Retrieved::TerminalSize(w, _)) = terminal.get(Value::TerminalSize) {
+        let width = if let Ok((w, _)) = crossterm::terminal::size() {
             (w / 2) as usize
         } else {
             DEFAULT_WIDTH
@@ -38,7 +35,6 @@ impl<I: ExactSizeIterator> ProgressBar<I> {
             title: String::new(),
             start_time: Instant::now(),
             style: ProgressBarStyle::default(),
-            terminal,
         }
     }
 }
@@ -97,15 +93,9 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             tip
         };
 
-        let (x, y) =
-            if let Ok(Retrieved::CursorPosition(x, y)) = self.terminal.get(Value::CursorPosition) {
-                (x, y)
-            } else {
-                (0, 0)
-            };
+        if stdout().execute(crossterm::cursor::Hide).is_ok() {}
 
-        self.terminal.act(Action::HideCursor).unwrap_or(());
-
+        let (x, y) = crossterm::cursor::position().unwrap_or((0, 0));
         match self.style.get_layout() {
             ProgressBarLayout::AllRight => {
                 print!("{title}{surround_left}{fg}{tip}{bg}{surround_right}{counter}{percentage}{time}");
@@ -133,7 +123,13 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             }
         }
 
-        self.terminal.act(Action::MoveCursorTo(x, y)).unwrap_or(());
+        if str_len == self.width {
+            if stdout()
+                .execute(crossterm::cursor::MoveTo(0, y + 1))
+                .is_ok()
+            {}
+        } else if stdout().execute(crossterm::cursor::MoveTo(x, y)).is_ok() {
+        }
 
         self.current_index += 1;
         self.data.next()
