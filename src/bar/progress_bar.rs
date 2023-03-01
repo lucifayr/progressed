@@ -2,7 +2,10 @@ use std::{io::Stdout, time::Instant};
 
 use terminal::{Action, Retrieved, Terminal, Value};
 
-use crate::{defaults::DEFAULT_WIDTH, style::bar_style::ProgressBarStyle};
+use crate::{
+    defaults::DEFAULT_WIDTH,
+    style::{bar_style::ProgressBarStyle, layout::ProgressBarLayout},
+};
 
 pub struct ProgressBar<I: ExactSizeIterator> {
     data: I,
@@ -51,13 +54,13 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             let index = self.current_index;
             let len = self.max_len;
             let max_str_width = len.to_string().len();
-            format!("{surround_left}{index:max_str_width$}/{len}{surround_right} ")
+            format!(" {surround_left}{index:max_str_width$}/{len}{surround_right} ")
         } else {
             String::new()
         };
 
         let percentage = if self.style.get_show_percentage() {
-            format!(" {percent:3.0}%", percent = progress * 100.0)
+            format!(" {percent:3.0}% ", percent = progress * 100.0)
         } else {
             String::new()
         };
@@ -67,7 +70,7 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             let seconds = duration.as_secs() % 60;
             let minutes = (duration.as_secs() / 60) % 60;
             let hours = (duration.as_secs() / 60) / 60;
-            format!(" {:02}:{:02}:{:02}", hours, minutes, seconds)
+            format!(" {:02}:{:02}:{:02} ", hours, minutes, seconds)
         } else {
             String::new()
         };
@@ -93,7 +96,33 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             };
 
         self.terminal.act(Action::HideCursor).unwrap_or(());
-        print!("{title}{counter}{surround_left}{fg}{tip}{bg}{surround_right}{percentage}{time}");
+
+        match self.style.get_layout() {
+            ProgressBarLayout::AllRight => {
+                print!("{title}{surround_left}{fg}{tip}{bg}{surround_right}{counter}{percentage}{time}");
+            }
+            ProgressBarLayout::AllLeft => {
+                print!("{title}{counter}{percentage}{time}{surround_left}{fg}{tip}{bg}{surround_right}");
+            }
+            ProgressBarLayout::TimerRight => {
+                print!("{title}{counter}{percentage}{surround_left}{fg}{tip}{bg}{surround_right}{time}");
+            }
+            ProgressBarLayout::CounterRight => {
+                print!("{title}{percentage}{time}{surround_left}{fg}{tip}{bg}{surround_right}{counter}");
+            }
+            ProgressBarLayout::PercentageRight => {
+                print!("{title}{counter}{time}{surround_left}{fg}{tip}{bg}{surround_right}{percentage}");
+            }
+            ProgressBarLayout::TimerAndCounterRight => {
+                print!("{title}{percentage}{surround_left}{fg}{tip}{bg}{surround_right}{counter}{time}");
+            }
+            ProgressBarLayout::TimerAndPercentageRight => {
+                print!("{title}{counter}{surround_left}{fg}{tip}{bg}{surround_right}{percentage}{time}");
+            }
+            ProgressBarLayout::CounterAndPercentageRight => {
+                print!("{title}{time}{surround_left}{fg}{tip}{bg}{surround_right}{counter}{percentage}");
+            }
+        }
 
         self.terminal.act(Action::MoveCursorTo(x, y)).unwrap_or(());
 

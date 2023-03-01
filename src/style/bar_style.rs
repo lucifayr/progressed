@@ -3,6 +3,8 @@ use crate::defaults::{
     DEFAULT_TIP_SYMBOL,
 };
 
+use super::layout::ProgressBarLayout;
+
 #[derive(Debug, Clone)]
 pub struct ProgressBarStyle {
     fg_symbol: char,
@@ -13,6 +15,7 @@ pub struct ProgressBarStyle {
     show_percentage: bool,
     counter_surround: (char, char),
     bar_surround: (char, char),
+    layout: ProgressBarLayout,
 }
 
 impl Default for ProgressBarStyle {
@@ -26,6 +29,7 @@ impl Default for ProgressBarStyle {
             show_percentage: true,
             counter_surround: DEFAULT_COUNTER_SURROUND,
             bar_surround: DEFAULT_BAR_SURROUND,
+            layout: ProgressBarLayout::PercentageRight,
         }
     }
 }
@@ -41,6 +45,7 @@ impl ProgressBarStyle {
             show_percentage: true,
             counter_surround: (' ', ' '),
             bar_surround: ('[', ']'),
+            layout: ProgressBarLayout::PercentageRight,
         }
     }
 
@@ -54,6 +59,7 @@ impl ProgressBarStyle {
             show_percentage: false,
             counter_surround: DEFAULT_COUNTER_SURROUND,
             bar_surround: ('[', ']'),
+            layout: ProgressBarLayout::PercentageRight,
         }
     }
 
@@ -126,6 +132,15 @@ impl ProgressBarStyle {
 
     pub fn set_bar_surround(mut self, bar_surround: (char, char)) -> Self {
         self.bar_surround = bar_surround;
+        self
+    }
+
+    pub fn get_layout(&self) -> ProgressBarLayout {
+        self.layout
+    }
+
+    pub fn set_layout(mut self, layout: ProgressBarLayout) -> Self {
+        self.layout = layout;
         self
     }
 }
