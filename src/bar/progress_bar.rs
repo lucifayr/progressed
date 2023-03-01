@@ -5,6 +5,7 @@ use terminal::{Action, Retrieved, Terminal, Value};
 use crate::{
     defaults::DEFAULT_WIDTH,
     style::{bar_style::ProgressBarStyle, layout::ProgressBarLayout},
+    symbols::blocks::get_block_by_progress,
 };
 
 pub struct ProgressBar<I: ExactSizeIterator> {
@@ -82,10 +83,18 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
         let bg_symbol = self.style.get_bg_symbol().to_string();
         let fg = vec![fg_symbol.clone(); str_len].join("");
         let bg = vec![bg_symbol; self.width - str_len].join("");
+
         let tip = if str_len != self.width && str_len != 0 {
             self.style.get_tip_symbol().to_string()
         } else {
             fg_symbol
+        };
+
+        let tip = if self.style.get_is_smooth() {
+            let tip_decimal = (progress * self.width as f64) % 1.0;
+            format!("{}", get_block_by_progress(tip_decimal))
+        } else {
+            tip
         };
 
         let (x, y) =

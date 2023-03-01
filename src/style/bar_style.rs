@@ -1,6 +1,9 @@
-use crate::defaults::{
-    DEFAULT_BAR_SURROUND, DEFAULT_BG_SYMBOL, DEFAULT_COUNTER_SURROUND, DEFAULT_FG_SYMBOL,
-    DEFAULT_TIP_SYMBOL,
+use crate::{
+    defaults::{
+        DEFAULT_BAR_SURROUND, DEFAULT_BG_SYMBOL, DEFAULT_COUNTER_SURROUND, DEFAULT_FG_SYMBOL,
+        DEFAULT_TIP_SYMBOL,
+    },
+    symbols::blocks::FULL_BLOCK,
 };
 
 use super::layout::ProgressBarLayout;
@@ -10,6 +13,7 @@ pub struct ProgressBarStyle {
     fg_symbol: char,
     bg_symbol: char,
     tip_symbol: char,
+    smooth: bool,
     show_time: bool,
     show_counter: bool,
     show_percentage: bool,
@@ -24,6 +28,7 @@ impl Default for ProgressBarStyle {
             fg_symbol: DEFAULT_FG_SYMBOL,
             bg_symbol: DEFAULT_BG_SYMBOL,
             tip_symbol: DEFAULT_TIP_SYMBOL,
+            smooth: false,
             show_time: true,
             show_counter: false,
             show_percentage: true,
@@ -35,11 +40,27 @@ impl Default for ProgressBarStyle {
 }
 
 impl ProgressBarStyle {
+    pub fn smooth() -> Self {
+        Self {
+            fg_symbol: FULL_BLOCK,
+            bg_symbol: ' ',
+            tip_symbol: ' ',
+            smooth: true,
+            show_time: true,
+            show_counter: false,
+            show_percentage: true,
+            counter_surround: (' ', ' '),
+            bar_surround: ('|', '|'),
+            layout: ProgressBarLayout::TimerRight,
+        }
+    }
+
     pub fn arch() -> Self {
         Self {
             fg_symbol: '#',
             bg_symbol: '-',
             tip_symbol: '-',
+            smooth: false,
             show_time: true,
             show_counter: false,
             show_percentage: true,
@@ -54,6 +75,7 @@ impl ProgressBarStyle {
             fg_symbol: '=',
             bg_symbol: ' ',
             tip_symbol: '>',
+            smooth: false,
             show_time: false,
             show_counter: false,
             show_percentage: false,
@@ -87,6 +109,15 @@ impl ProgressBarStyle {
 
     pub fn set_tip_symbol(mut self, tip_symbol: char) -> Self {
         self.tip_symbol = tip_symbol;
+        self
+    }
+
+    pub fn get_is_smooth(&self) -> bool {
+        self.smooth
+    }
+
+    pub fn set_is_smooth(mut self, is_smooth: bool) -> Self {
+        self.smooth = is_smooth;
         self
     }
 
