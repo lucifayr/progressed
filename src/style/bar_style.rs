@@ -31,7 +31,7 @@ impl ProgressBarStyle {
         Self {
             fg_symbol: '#',
             bg_symbol: '-',
-            tip_symbol: DEFAULT_TIP_SYMBOL,
+            tip_symbol: '-',
             show_counter: true,
             counter_surround: (' ', ' '),
             bar_surround: ('[', ']'),
