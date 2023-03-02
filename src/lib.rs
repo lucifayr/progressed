@@ -1,6 +1,6 @@
 //! # Progressive
 //!
-//! An easy to use and highly configurable library to show progress of applications, calculations,
+//! An easy to use and highly configurable library to show the progress of applications, calculations,
 //! etc.
 //!
 //! # Example Usage
@@ -12,7 +12,7 @@
 //!     .set_style(ProgressBarStyle::default())
 //!     .set_title("progress bar: ")
 //! {
-//!        // thread::sleep(Duration::from_millis(50));
+//!        thread::sleep(Duration::from_millis(50));
 //! }
 //! ```
 
