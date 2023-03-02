@@ -1,2 +1,5 @@
-pub mod bar_style;
-pub mod layout;
+pub use bar_style::ProgressBarStyle;
+pub use layout::ProgressBarLayout;
+
+mod bar_style;
+mod layout;

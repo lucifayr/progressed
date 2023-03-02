@@ -1,8 +1,11 @@
 use std::{thread, time::Duration};
 
-use progressive::{bar::progress_bar::ProgressBar, style::bar_style::ProgressBarStyle};
+use progressive::{ProgressBar, ProgressBarStyle};
 
 fn main() {
+    let bar = ProgressBar::new(0..100);
+    for _ in bar {}
+
     println!("Starting progress bar 1...");
     for _ in ProgressBar::new(0..50)
         .set_style(ProgressBarStyle::smooth())

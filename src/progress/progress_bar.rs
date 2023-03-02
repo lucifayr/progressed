@@ -4,7 +4,7 @@ use crossterm::ExecutableCommand;
 
 use crate::{
     defaults::DEFAULT_WIDTH,
-    style::{bar_style::ProgressBarStyle, layout::ProgressBarLayout},
+    style::{ProgressBarLayout, ProgressBarStyle},
     symbols::blocks::get_block_by_progress,
 };
 
@@ -87,7 +87,9 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
         };
 
         let tip = if self.style.get_is_smooth() {
+            if str_len != self.width {}
             let tip_decimal = (progress * self.width as f64) % 1.0;
+
             format!("{}", get_block_by_progress(tip_decimal))
         } else {
             tip
