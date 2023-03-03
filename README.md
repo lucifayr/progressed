@@ -1,7 +1,6 @@
 # Progressive
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Docs][docs.rs/self/badge]][docs.rs/self]
 
 An easy to use and highly configurable library to show the progress of applications, calculations,
 etc.
