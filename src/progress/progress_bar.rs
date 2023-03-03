@@ -8,6 +8,16 @@ use crate::{
     symbols::blocks::get_block_by_progress,
 };
 
+/// Draws a progress bar while iterating over a finite range.
+/// ```no_run
+///   use progressive::ProgressBar;
+///
+///   let bar = ProgressBar::new(0..100).set_title("Running Job: ");
+///   for _ in bar {
+///       // prints progress bar
+///   }
+///
+/// ```
 pub struct ProgressBar<I: ExactSizeIterator> {
     data: I,
     current_index: usize,

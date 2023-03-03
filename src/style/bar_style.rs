@@ -8,6 +8,34 @@ use crate::{
 
 use super::layout::ProgressBarLayout;
 
+/// Used to style a progress bar.
+///
+/// ```
+/// use progressive::{ProgressBar, ProgressBarStyle};
+///
+/// let style = ProgressBarStyle::default()
+///     .set_fg_symbol('=')
+///     .set_show_time(true);
+///
+/// let bar = ProgressBar::new(0..100).set_style(style);
+/// ```
+///
+/// ## Styles
+/// There a few defaults styles that are modeled after common progress bars.
+///
+/// ### Default
+/// (25/50) |########################                       |  50%
+///
+/// ### Arch
+/// 00:00:00 [######----------------------------------------]  12%
+///
+///
+/// ### Cargo
+/// [====================================>                       ]
+///
+///
+/// ### Smooth
+/// 86% |██████████████████████████████████████▉        | 00:00:02
 #[derive(Debug, Clone)]
 pub struct ProgressBarStyle {
     fg_symbol: char,
