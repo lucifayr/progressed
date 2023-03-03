@@ -49,38 +49,54 @@ impl<I: ExactSizeIterator> ProgressBar<I> {
     }
 }
 
+fn draw_counter(surround: (char, char), index: usize, len: usize, show: bool) -> String {
+    if !show {
+        return String::new();
+    }
+
+    let surround_left = surround.0;
+    let surround_right = surround.1;
+    let max_str_width = len.to_string().len();
+
+    format!(" {surround_left}{index:max_str_width$}/{len}{surround_right} ")
+}
+
+fn draw_percentage(progress: f64, show: bool) -> String {
+    if !show {
+        return String::new();
+    }
+
+    format!(" {percent:3.0}% ", percent = progress * 100.0)
+}
+
+fn draw_time(start_time: Instant, show: bool) -> String {
+    if !show {
+        return String::new();
+    }
+
+    let duration = start_time.elapsed();
+    let seconds = duration.as_secs() % 60;
+    let minutes = (duration.as_secs() / 60) % 60;
+    let hours = (duration.as_secs() / 60) / 60;
+
+    format!(" {:02}:{:02}:{:02} ", hours, minutes, seconds)
+}
+
 impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
     type Item = I::Item;
     fn next(&mut self) -> Option<Self::Item> {
         let progress = self.current_index as f64 / self.max_len as f64;
         let str_len = (progress * self.width as f64) as usize;
 
-        let counter = if self.style.get_show_counter() {
-            let surround_left = self.style.get_counter_surround().0;
-            let surround_right = self.style.get_counter_surround().1;
-            let index = self.current_index;
-            let len = self.max_len;
-            let max_str_width = len.to_string().len();
-            format!(" {surround_left}{index:max_str_width$}/{len}{surround_right} ")
-        } else {
-            String::new()
-        };
+        let counter = draw_counter(
+            self.style.get_counter_surround(),
+            self.current_index,
+            self.data.len(),
+            self.style.get_show_counter(),
+        );
 
-        let percentage = if self.style.get_show_percentage() {
-            format!(" {percent:3.0}% ", percent = progress * 100.0)
-        } else {
-            String::new()
-        };
-
-        let time = if self.style.get_show_time() {
-            let duration = self.start_time.elapsed();
-            let seconds = duration.as_secs() % 60;
-            let minutes = (duration.as_secs() / 60) % 60;
-            let hours = (duration.as_secs() / 60) / 60;
-            format!(" {:02}:{:02}:{:02} ", hours, minutes, seconds)
-        } else {
-            String::new()
-        };
+        let percentage = draw_percentage(progress, self.style.get_show_percentage());
+        let time = draw_time(self.start_time, self.style.get_show_time());
 
         let title = &self.title;
         let surround_left = self.style.get_bar_surround().0;
