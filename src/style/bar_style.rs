@@ -11,7 +11,7 @@ use super::layout::ProgressBarLayout;
 /// Used to style a progress bar.
 ///
 /// ```
-/// use progressive::{ProgressBar, ProgressBarStyle};
+/// use progressed::{ProgressBar, ProgressBarStyle};
 ///
 /// let style = ProgressBarStyle::default()
 ///     .set_fg_symbol('=')

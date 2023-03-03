@@ -1,4 +1,4 @@
-//! # Progressive
+//! # Progressed
 //!
 //! An easy to use and highly configurable library to show the progress of applications, calculations,
 //! etc.
@@ -6,7 +6,7 @@
 //! # Example Usage
 //! ```no_run
 //! use std::{thread, time::Duration};
-//! use progressive::{ProgressBar, ProgressBarStyle};
+//! use progressed::{ProgressBar, ProgressBarStyle};
 //!
 //! for _ in ProgressBar::new(0..100)
 //!     .set_style(ProgressBarStyle::default())

@@ -1,6 +1,6 @@
 use std::{thread, time::Duration};
 
-use progressive::{ProgressBar, ProgressBarStyle};
+use progressed::{ProgressBar, ProgressBarStyle};
 
 fn main() {
     println!("Starting progress bar 1...");

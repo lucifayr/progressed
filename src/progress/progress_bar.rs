@@ -10,7 +10,7 @@ use crate::{
 
 /// Draws a progress bar while iterating over a finite range.
 /// ```no_run
-///   use progressive::ProgressBar;
+///   use progressed::ProgressBar;
 ///
 ///   let bar = ProgressBar::new(0..100).set_title("Running Job: ");
 ///   for _ in bar {
