@@ -8,7 +8,12 @@ fn main() {
         .set_style(ProgressBarStyle::smooth())
         .set_title("smooth: ")
     {
-        thread::sleep(Duration::from_millis(50));
+        for _ in ProgressBar::new(0..50)
+            .set_style(ProgressBarStyle::arch())
+            .set_title("\narch: ")
+        {
+            thread::sleep(Duration::from_millis(50));
+        }
     }
 
     println!("Starting progress bar 2...");

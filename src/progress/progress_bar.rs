@@ -26,6 +26,7 @@ pub struct ProgressBar<I: ExactSizeIterator> {
     title: String,
     start_time: Instant,
     style: ProgressBarStyle,
+    start_pos: (u16, u16),
 }
 
 impl<I: ExactSizeIterator> ProgressBar<I> {
@@ -37,6 +38,7 @@ impl<I: ExactSizeIterator> ProgressBar<I> {
             DEFAULT_WIDTH
         };
 
+        let start_pos = crossterm::cursor::position().unwrap_or((0, 0));
         Self {
             data: iter,
             current_index: 0,
@@ -45,6 +47,7 @@ impl<I: ExactSizeIterator> ProgressBar<I> {
             title: String::new(),
             start_time: Instant::now(),
             style: ProgressBarStyle::default(),
+            start_pos,
         }
     }
 }
@@ -123,7 +126,9 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
 
         if stdout().execute(crossterm::cursor::Hide).is_ok() {}
 
-        let (x, y) = crossterm::cursor::position().unwrap_or((0, 0));
+        let (x, y) = self.start_pos;
+        if let Ok(_) = stdout().execute(crossterm::cursor::MoveTo(x, y)) {}
+
         match self.style.get_layout() {
             ProgressBarLayout::AllRight => {
                 print!("{title}{surround_left}{fg}{tip}{bg}{surround_right}{counter}{percentage}{time}");
@@ -152,13 +157,9 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
         }
 
         if str_len == self.width {
-            if stdout()
-                .execute(crossterm::cursor::MoveTo(0, y + 1))
-                .is_ok()
-            {}
-        } else if stdout().execute(crossterm::cursor::MoveTo(x, y)).is_ok() {
+            print!("\n");
+            if stdout().execute(crossterm::cursor::Show).is_ok() {}
         }
-
         self.current_index += 1;
         self.data.next()
     }
