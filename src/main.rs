@@ -1,8 +1,15 @@
 use std::{thread, time::Duration};
 
-use progressed::{ProgressBar, ProgressBarStyle};
+use progressed::{LoadingSpinner, LoadingSpinnerStyle, ProgressBar, ProgressBarStyle};
 
 fn main() {
+    let mut spinner = LoadingSpinner::default().set_style(LoadingSpinnerStyle::dots());
+    thread::spawn(move || loop {
+        spinner.tick();
+        thread::sleep(Duration::from_millis(100));
+    });
+
+    println!("");
     println!("Starting progress bar 1...");
     for _ in ProgressBar::new(0..50)
         .set_style(ProgressBarStyle::smooth())
