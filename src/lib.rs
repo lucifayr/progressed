@@ -16,7 +16,9 @@
 //! }
 //! ```
 
+pub use progress::LoadingSpinner;
 pub use progress::ProgressBar;
+pub use style::LoadingSpinnerStyle;
 pub use style::ProgressBarLayout;
 pub use style::ProgressBarStyle;
 
