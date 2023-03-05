@@ -6,7 +6,7 @@ use crate::{
     symbols::blocks::FULL_BLOCK,
 };
 
-use super::layout::ProgressBarLayout;
+use super::bar_layout::ProgressBarLayout;
 
 /// Used to style a progress bar.
 ///
