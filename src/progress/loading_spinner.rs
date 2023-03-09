@@ -6,6 +6,7 @@ use crate::style::LoadingSpinnerStyle;
 
 pub struct LoadingSpinner {
     style: LoadingSpinnerStyle,
+    title: String,
     current_index: usize,
     start_pos: (u16, u16),
 }
@@ -15,6 +16,7 @@ impl Default for LoadingSpinner {
         let start_pos = crossterm::cursor::position().unwrap_or((0, 0));
         Self {
             style: LoadingSpinnerStyle::default(),
+            title: String::new(),
             current_index: 0,
             start_pos,
         }
@@ -23,6 +25,7 @@ impl Default for LoadingSpinner {
 
 impl LoadingSpinner {
     pub fn tick(&mut self) {
+        let title = &self.title;
         let symbols = self.style.get_spinner_symbols();
         let symbol = match symbols.get(self.current_index) {
             Some(symbol) => symbol,
@@ -41,13 +44,17 @@ impl LoadingSpinner {
         let (x, y) = self.start_pos;
         if let Ok(_) = stdout().execute(crossterm::cursor::MoveTo(x, y)) {}
 
-        print!("{symbol}");
+        print!("{title}{symbol}");
         self.current_index += 1;
     }
 
     pub fn set_style(mut self, style: LoadingSpinnerStyle) -> Self {
         self.style = style;
-        self.current_index = 0;
+        self
+    }
+
+    pub fn set_title(mut self, title: &str) -> Self {
+        self.title = title.to_owned();
         self
     }
 }
