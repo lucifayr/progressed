@@ -1,8 +1,18 @@
 use std::{thread, time::Duration};
 
-use progressed::{LoadingSpinner, LoadingSpinnerStyle, ProgressBar, ProgressBarStyle};
+use progressed::{
+    LoadingSpinner, LoadingSpinnerStyle, ProgressBar, ProgressBarStyle, UnboundProgressBar,
+    UnboundProgressBarStyle,
+};
 
 fn main() {
+    for _ in UnboundProgressBar::new(0..)
+        .set_style(UnboundProgressBarStyle::default().set_fg('-'))
+        .set_max_width(10)
+    {
+        thread::sleep(Duration::from_millis(50));
+    }
+
     let mut spinner = LoadingSpinner::default()
         .set_style(LoadingSpinnerStyle::fancy())
         .set_title("loading spinner: ");

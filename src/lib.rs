@@ -18,9 +18,11 @@
 
 pub use progress::LoadingSpinner;
 pub use progress::ProgressBar;
+pub use progress::UnboundProgressBar;
 pub use style::LoadingSpinnerStyle;
 pub use style::ProgressBarLayout;
 pub use style::ProgressBarStyle;
+pub use style::UnboundProgressBarStyle;
 
 mod defaults;
 mod progress;
