@@ -8,7 +8,7 @@ use progressed::{
 fn main() {
     for _ in UnboundProgressBar::new(0..)
         .set_style(UnboundProgressBarStyle::default().set_fg('-'))
-        .set_max_width(10)
+        .set_title("my title")
     {
         thread::sleep(Duration::from_millis(50));
     }

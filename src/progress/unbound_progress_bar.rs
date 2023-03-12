@@ -36,7 +36,6 @@ impl<I: Iterator> UnboundProgressBar<I> {
         self
     }
     pub fn set_title(mut self, title: &str) -> Self {
-        self.max_width -= title.len();
         self.title = title.to_owned();
         self
     }
@@ -53,12 +52,13 @@ impl<I: Iterator> Iterator for UnboundProgressBar<I> {
         let str_len = self.current_index;
 
         let title = &self.title;
-        let width = str_len % self.max_width;
+        let max_width = self.max_width - self.title.len();
+        let width = str_len % max_width;
 
         let tip = self.style.get_tip();
         let fg_symbol = self.style.get_fg();
         let fg = vec![fg_symbol.to_string(); width].join("");
-        let bg = vec![" "; self.max_width - width - 1].join("");
+        let bg = vec![" "; max_width - width - 1].join("");
 
         if stdout().execute(crossterm::cursor::Hide).is_ok() {}
 
