@@ -14,12 +14,12 @@ fn main() {
     }
 
     let mut spinner = LoadingSpinner::default()
-        .set_style(LoadingSpinnerStyle::fancy())
-        .set_title("loading spinner: ");
-    thread::spawn(move || loop {
+        .set_style(LoadingSpinnerStyle::default())
+        .set_title("Loading... ");
+    loop {
         spinner.tick();
         thread::sleep(Duration::from_millis(100));
-    });
+    }
 
     println!("");
     println!("Starting progress bar 1...");

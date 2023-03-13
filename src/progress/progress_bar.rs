@@ -9,6 +9,8 @@ use crate::{
 };
 
 /// Draws a progress bar while iterating over a finite range.
+///
+/// # Example Usage
 /// ```no_run
 ///   use progressed::ProgressBar;
 ///

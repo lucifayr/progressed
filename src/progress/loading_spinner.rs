@@ -4,6 +4,22 @@ use crossterm::ExecutableCommand;
 
 use crate::style::LoadingSpinnerStyle;
 
+/// Draws a loading spinner that updates when you call tick.
+///
+/// # Example Usage
+/// ```no_run
+/// use progressed::LoadingSpinner;
+/// use std::{thread, time::Duration};
+///
+/// let mut spinner = LoadingSpinner::default()
+///     .set_title("Loading... ");
+///
+/// loop {
+///     spinner.tick();
+///     thread::sleep(Duration::from_millis(100));
+/// }
+///
+/// ```
 pub struct LoadingSpinner {
     style: LoadingSpinnerStyle,
     title: String,
