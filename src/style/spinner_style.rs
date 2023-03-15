@@ -1,5 +1,39 @@
 use crate::defaults::DEFAULT_SPINNER_SURROUND;
 
+/// Used to style a loading spinner.
+///
+/// # Example Usage
+/// ```
+/// use progressed::{LoadingSpinner, LoadingSpinnerStyle};
+///
+/// let style = LoadingSpinnerStyle::default()
+///     .set_spinner_symbols(vec!['-', '+', '|']);
+///
+/// let spinner = LoadingSpinner::default().set_style(style);
+/// ```
+/// ## Styles
+/// There a few defaults styles for easy to use good looking loading spinners.
+///
+/// ### Horizontal Blocks
+/// Symbols: [▏ ▎ ▍ ▌ ▋ ▊ ▉ ▉ ▊ ▋ ▌ ▍ ▎]
+///
+/// ### Vertical Blocks
+/// Symbols: [▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▇ ▆ ▅ ▄ ▃ ▁]
+///
+/// ### Rectangles
+/// Symbols: [◰ ◳ ◲ ◱]
+///
+/// ### Triangles
+/// Symbols: [◢ ◣ ◤ ◥]
+///
+/// ### Pipes
+/// Symbols: [┤ ┘ ┴ └ ├ ┌ ┬ ┐]
+///
+/// ### Dots
+/// Symbols: [⠁ ⠂ ⠄ ⡀ ⢀ ⠠ ⠐ ⠈]
+///
+/// ### Fancy
+/// Symbols: [⣷ ⣯ ⣟ ⡿ ⢿ ⣻ ⣽ ⣾]
 pub struct LoadingSpinnerStyle {
     spinner_symbols: Vec<char>,
 }

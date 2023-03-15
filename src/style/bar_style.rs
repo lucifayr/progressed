@@ -10,6 +10,7 @@ use super::bar_layout::ProgressBarLayout;
 
 /// Used to style a progress bar.
 ///
+/// # Example Usage
 /// ```
 /// use progressed::{ProgressBar, ProgressBarStyle};
 ///
