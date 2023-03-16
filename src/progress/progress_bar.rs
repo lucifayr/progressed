@@ -96,7 +96,7 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
         let counter = draw_counter(
             self.style.get_counter_surround(),
             self.current_index,
-            self.data.len(),
+            self.max_len,
             self.style.get_show_counter(),
         );
 
