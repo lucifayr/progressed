@@ -20,7 +20,7 @@ for _ in ProgressBar::new(0..100)
 }
 ```
 
-See the [documentation](https://docs.rs/crate/progressed/latest) for more detailed information.
+See the [documentation](https://docs.rs/progressed/latest/progressed) for more detailed information.
 
 ## Alternatives
 - [progress](https://crates.io/crates/progress)
