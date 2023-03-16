@@ -4,6 +4,18 @@ use crossterm::ExecutableCommand;
 
 use crate::{defaults::DEFAULT_WIDTH, style::UnboundProgressBarStyle};
 
+/// Draws a progress bar while iterating over a range.
+///
+/// # Example Usage
+/// ```no_run
+///   use progressed::UnboundProgressBar;
+///
+///   let bar = UnboundProgressBar::new(0..).set_title("Running Job: ");
+///   for _ in bar {
+///       // prints progress bar
+///   }
+///
+/// ```
 pub struct UnboundProgressBar<I: Iterator> {
     data: I,
     current_index: usize,
@@ -55,8 +67,8 @@ impl<I: Iterator> Iterator for UnboundProgressBar<I> {
         let max_width = self.max_width - self.title.len();
         let width = str_len % max_width;
 
-        let tip = self.style.get_tip();
-        let fg_symbol = self.style.get_fg();
+        let tip = self.style.get_tip_symbol();
+        let fg_symbol = self.style.get_fg_symbol();
         let fg = vec![fg_symbol.to_string(); width].join("");
         let bg = vec![" "; max_width - width - 1].join("");
 
