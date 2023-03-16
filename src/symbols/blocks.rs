@@ -8,6 +8,10 @@ pub static LEFT_ONE_QUARTER_BLOCK: char = '▎';
 pub static LEFT_ONE_EIGHTH_BLOCK: char = '▏';
 
 pub fn get_block_by_progress(progress: f64) -> char {
+    if (progress * 1000.0).round() / 1000.0 == 0.0 {
+        return FULL_BLOCK;
+    }
+
     match progress {
         p if p < 1.0 / 8.0 => LEFT_ONE_EIGHTH_BLOCK,
         p if p < 2.0 / 8.0 => LEFT_ONE_QUARTER_BLOCK,
