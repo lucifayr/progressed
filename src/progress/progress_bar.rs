@@ -1,8 +1,4 @@
-use std::{
-    io::stdout,
-    thread::{self, JoinHandle},
-    time::Instant,
-};
+use std::{io::stdout, time::Instant};
 
 use crossterm::ExecutableCommand;
 
@@ -33,8 +29,6 @@ pub struct ProgressBar<I: ExactSizeIterator> {
     start_time: Instant,
     style: ProgressBarStyle,
     start_pos: (u16, u16),
-    timer_pos: (u16, u16),
-    timer_thread: Option<JoinHandle<()>>,
 }
 
 impl<I: ExactSizeIterator> ProgressBar<I> {
@@ -56,8 +50,6 @@ impl<I: ExactSizeIterator> ProgressBar<I> {
             start_time: Instant::now(),
             style: ProgressBarStyle::default(),
             start_pos,
-            timer_pos: (0, 0),
-            timer_thread: None,
         }
     }
 }
@@ -166,15 +158,10 @@ impl<I: ExactSizeIterator> Iterator for ProgressBar<I> {
             }
         }
 
-        if self.timer_thread.is_none() {
-            self.timer_thread = Some(thread::spawn(|| {}))
-        }
-
         if str_len == self.width {
             print!("\n");
             if stdout().execute(crossterm::cursor::Show).is_ok() {}
         }
-
         self.current_index += 1;
         self.data.next()
     }
